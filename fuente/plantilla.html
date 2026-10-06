@@ -115,12 +115,6 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
 .note{font-size:12px;color:var(--ink-3);margin:8px 0 0}
 .notes{margin-top:60px;font-size:12.5px;color:var(--ink-2);border-top:2px solid var(--rule);padding-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 36px}
 .notes b{color:var(--brand);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
-footer.inst{background:var(--brand);color:#ffffff;margin-top:40px}
-footer.inst .in{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3.5vw,40px);padding-block:22px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between}
-footer.inst img{height:56px;width:auto;display:block}
-footer.inst ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13px}
-footer.inst li span{color:#c0c6ce;margin-right:4px}
-footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #42556c;padding-top:12px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -162,7 +156,7 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
 </section>
 
 <section id="territorio" aria-labelledby="h-terr">
-  <div class="sh"><div class="num">1 · Territorio</div><h2 id="h-terr">¿Desde qué departamentos se exporta?</h2><p>Haga clic en el mapa o marque filas de la tabla para comparar la evolución de varios departamentos.</p></div>
+  <div class="sh"><h2 id="h-terr">¿Desde qué departamentos se exporta?</h2><p>Haga clic en el mapa o marque filas de la tabla para comparar la evolución de varios departamentos.</p></div>
   <div class="grid2">
     <div class="card">
       <div class="tools"><h3>Valor exportado por departamento de origen</h3>
@@ -175,7 +169,7 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
 </section>
 
 <section id="destinos" aria-labelledby="h-dest">
-  <div class="sh"><div class="num">2 · Destinos</div><h2 id="h-dest">¿A qué países se exporta?</h2><p>Los registros sin país identificado aparecen como "País no declarado". Algunos territorios pequeños no se ven en el mapa, pero sí en la tabla.</p></div>
+  <div class="sh"><h2 id="h-dest">¿A qué países se exporta?</h2><p>Los registros sin país identificado aparecen como "País no declarado". Algunos territorios pequeños no se ven en el mapa, pero sí en la tabla.</p></div>
   <div class="grid2">
     <div class="card"><div class="tools"><h3>Valor exportado por país de destino</h3>
       <div class="seg" id="wmapMode"><button type="button" data-v="val" aria-pressed="true">Nivel</button><button type="button" data-v="var">Variación</button></div></div>
@@ -185,7 +179,7 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
 </section>
 
 <section id="productos" aria-labelledby="h-prod">
-  <div class="sh"><div class="num">3 · Productos</div><h2 id="h-prod">¿Qué se exporta?</h2><p>Elija la clasificación. La selección de la tabla controla la gráfica de evolución.</p></div>
+  <div class="sh"><h2 id="h-prod">¿Qué se exporta?</h2><p>Elija la clasificación. La selección de la tabla controla la gráfica de evolución.</p></div>
   <div class="tabs" role="tablist" id="prodTabs">
     <button role="tab" data-k="grupo">Grupos de productos</button>
     <button role="tab" data-k="tec">Intensidad tecnológica</button>
@@ -200,12 +194,12 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
 </section>
 
 <section id="transporte" aria-labelledby="h-tr">
-  <div class="sh"><div class="num">4 · Transporte</div><h2 id="h-tr">¿Cómo sale la carga?</h2><p>El oro, de alto valor y poco peso, sale por vía aérea; el carbón y el petróleo, por vía marítima. Cambie la medida a toneladas para ver el contraste.</p></div>
+  <div class="sh"><h2 id="h-tr">¿Cómo sale la carga?</h2><p>El oro, de alto valor y poco peso, sale por vía aérea; el carbón y el petróleo, por vía marítima. Cambie la medida a toneladas para ver el contraste.</p></div>
   <div class="card" id="pModo"></div>
 </section>
 
 <section id="empresas" aria-labelledby="h-emp">
-  <div class="sh"><div class="num">5 · Empresas</div><h2 id="h-emp">¿Quiénes son los mayores exportadores?</h2><p>La fuente solo incluye las 10 mayores empresas minero-energéticas y las 10 mayores no minero-energéticas de cada mes. Un vacío significa que la empresa no estuvo en esa lista, no que no exportó.</p></div>
+  <div class="sh"><h2 id="h-emp">¿Quiénes son los mayores exportadores?</h2><p>La fuente solo incluye las 10 mayores empresas minero-energéticas y las 10 mayores no minero-energéticas de cada mes. Un vacío significa que la empresa no estuvo en esa lista, no que no exportó.</p></div>
   <div class="grid2">
     <div class="card"><div class="tools"><h3>Ranking del periodo</h3>
       <div class="seg" id="empType"><button type="button" data-v="all" aria-pressed="true">Todas</button><button type="button" data-v="M">Minero-energéticas</button><button type="button" data-v="N">No minero</button></div></div>
@@ -217,7 +211,7 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
 </section>
 
 <section id="concentracion" aria-labelledby="h-ihh">
-  <div class="sh"><div class="num">6 · Concentración</div><h2 id="h-ihh">¿Qué tan concentradas están las exportaciones de cada departamento?</h2><p>Índice Herfindahl-Hirschman (IHH, de 0 a 1). Un valor alto indica que pocos productos o pocos destinos explican casi todo lo que exporta el departamento. 2026 corresponde a enero-agosto.</p></div>
+  <div class="sh"><h2 id="h-ihh">¿Qué tan concentradas están las exportaciones de cada departamento?</h2><p>Índice Herfindahl-Hirschman (IHH, de 0 a 1). Un valor alto indica que pocos productos o pocos destinos explican casi todo lo que exporta el departamento. 2026 corresponde a enero-agosto.</p></div>
   <div class="card">
     <div class="tools">
       <div class="seg" id="ihhDim"><button type="button" data-v="prod" aria-pressed="true">Por producto</button><button type="button" data-v="pais">Por país de destino</button></div>
@@ -234,10 +228,6 @@ footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #4
   <div><b>Mapas</b>Colombia: SVG Maps (@svg-maps/colombia, CC BY 4.0). Mundo: Natural Earth vía world-atlas.</div>
 </div>
 </div>
-<footer class="inst"><div class="in">
-  <ul><li><span>X</span>@colendatos</li><li><span>Instagram</span>@coldatos</li><li><span>Facebook</span>Colombia en Datos</li><li><span>LinkedIn</span>Colombia en Datos</li></ul>
-  <div class="tag">Datos que conectan, decisiones que transforman. · colombiaendatos.com</div>
-</div></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 <script id="data" type="application/json">__DATA__</script>
 <script>
