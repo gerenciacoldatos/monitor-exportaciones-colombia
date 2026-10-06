@@ -1,0 +1,497 @@
+<title>Monitor de Exportaciones de Colombia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: página editorial de una columna ancha. Nameplate, titular con sumario dinámico, frase de filtros,
+   y secciones separadas por filetes; los gráficos van sin cajas, con título-hallazgo arriba y fuente abajo. */
+:root{
+  color-scheme:light;
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#f4f6f9; --line:#e2e6eb; --rule:#031c3b;
+  --ink:#031c3b; --ink-2:#42556c; --ink-3:#818e9d;
+  --brand:#031c3b; --steel:#42556c; --cmp:#c0c6ce; --accent:#d12a3c; --up:#215b85; --down:#c0283a; --focus:#3289c7; --flag:#f2c230;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
+  --map0:#eef1f5; --map1:#c0c6ce; --map2:#818e9d; --map3:#031c3b;
+  --pill-b:#dfe9f5; --pill-m:#f3ead6; --pill-a:#f5dcd9;
+  --f-head:"Open Sans","Segoe UI",system-ui,sans-serif;
+  --f-body:"Open Sans","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3.5vw,40px);padding-block:0 8px}
+.masthead{background:var(--brand);color:#ffffff}
+.masthead .in{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3.5vw,40px);padding-block:12px;display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap}
+.masthead img{height:66px;width:auto;display:block}
+.masthead .meta{font-size:12.5px;color:#c0c6ce;text-align:right}
+.masthead .meta b{color:#ffffff;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;display:block}
+.flagrule{height:5px;background:linear-gradient(90deg,var(--flag) 0 50%,#215b85 50% 75%,var(--accent) 75% 100%)}
+header.hero{padding-block:28px 22px;max-width:860px}
+.kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:10px}
+h1{font-family:var(--f-head);font-weight:800;color:var(--brand);font-size:clamp(30px,4.4vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+.deck{font-family:var(--f-body);font-size:clamp(16px,1.5vw,18.5px);line-height:1.45;color:var(--ink-2);margin:0;max-width:62ch}
+.byline{margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+.byline b{color:var(--ink);font-weight:600}
+/* barra de filtros */
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-block:1px solid var(--line);padding-block:12px}
+.frow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-3)}
+.fld select{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--cmp);border-radius:6px;padding:7px 10px;min-height:38px;cursor:pointer}
+.segb{display:inline-flex;border:1px solid var(--cmp);border-radius:6px;overflow:hidden;background:var(--surface)}
+.segb button{font:inherit;font-size:13.5px;border:0;background:transparent;color:var(--ink-2);padding:8px 13px;cursor:pointer;min-height:38px}
+.segb button+button{border-left:1px solid var(--line)}
+.segb button[aria-pressed="true"]{background:var(--brand);color:#ffffff;font-weight:600}
+.segb button:hover:not([aria-pressed="true"]){background:var(--surface-2)}
+.periodo{margin-left:auto;font-size:13.5px;color:var(--ink-2);padding-bottom:8px}
+.periodo b{color:var(--ink)}
+.fld select:focus-visible,select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#fMonthWrap[hidden]{display:none}
+/* resumen */
+.lead{font-family:var(--f-body);font-size:clamp(19px,2.1vw,25px);line-height:1.38;color:var(--brand);max-width:34em;margin:26px 0 22px;text-wrap:pretty}
+.lead b{font-weight:800}
+.up{color:var(--up)} .down{color:var(--down)}
+.figs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:2px solid var(--rule);border-bottom:1px solid var(--line)}
+.fig{padding:14px 18px 16px;border-left:1px solid var(--line);min-width:0}
+.fig:first-child{border-left:0;padding-left:0}
+.fig .l{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--ink-3)}
+.fig .v{font-family:var(--f-head);color:var(--brand);font-size:clamp(26px,2.6vw,34px);font-weight:800;letter-spacing:-.01em;font-variant-numeric:lining-nums tabular-nums;line-height:1.15;margin-top:4px}
+.fig .u{font-size:12px;color:var(--ink-3)}
+.fig .d{font-size:12.5px;margin-top:6px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+@media (max-width:980px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}.fig{border-left:0;padding-left:0;border-top:1px solid var(--line)}.fig:nth-child(-n+2){border-top:0}.fig:nth-child(even){padding-left:16px;border-left:1px solid var(--line)}}
+.chg{font-weight:700;font-variant-numeric:tabular-nums}
+.chg.up{color:var(--up)} .chg.down{color:var(--down)}
+/* secciones */
+section{margin-top:56px;padding-top:14px;border-top:1px solid var(--rule)}
+section#resumen{margin-top:0;padding-top:0;border-top:0}
+.sh{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin-bottom:22px;max-width:780px}
+.sh .num{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+h2{font-family:var(--f-head);color:var(--brand);font-size:clamp(22px,2.3vw,29px);font-weight:800;letter-spacing:-.01em;line-height:1.15;margin:0;text-wrap:balance}
+.sh p{margin:0;color:var(--ink-2);font-size:15px;max-width:68ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0 44px}
+.grid2>.card+.card{position:relative}
+@media (min-width:901px){.grid2>.card+.card::before{content:"";position:absolute;left:-22px;top:0;bottom:0;border-left:1px solid var(--line)}}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr);gap:34px}}
+.card{min-width:0}
+.card h3,.ctitle{font-size:15.5px;margin:0 0 3px;font-weight:700;color:var(--ink);text-wrap:balance}
+.card .sub{font-size:13px;color:var(--ink-3);margin:0 0 10px}
+.src{font-size:11.5px;color:var(--ink-3);margin:6px 0 0;border-top:1px solid var(--line);padding-top:6px}
+.chart{width:100%;height:330px}
+.chart.tall{height:460px}
+.chart.map{height:500px}
+/* controles secundarios */
+.seg{display:inline-flex;gap:14px;flex-wrap:wrap}
+.seg button,.tabs button{font:inherit;font-size:13px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--ink-3);padding:4px 0;cursor:pointer}
+.seg button[aria-pressed="true"],.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:700}
+.seg button:hover,.tabs button:hover{color:var(--ink)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0 0 22px;border-bottom:1px solid var(--line)}
+.tabs button{font-size:14px;padding:6px 0 8px;margin-bottom:-1px}
+.tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px}
+.tools h3{flex:1 1 auto}
+input[type=search]{font:inherit;color:var(--ink);background:var(--surface);border:0;border-bottom:1px solid var(--ink-3);border-radius:0;padding:6px 2px;flex:1 1 220px;min-width:0}
+input[type=search]::placeholder{color:var(--ink-3)}
+select{font:inherit;color:var(--ink);background:var(--surface);border:0;border-bottom:1px solid var(--ink-3);padding:4px 2px}
+.btn{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--up);padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.chips{display:flex;flex-wrap:wrap;gap:4px 14px;min-height:24px;margin-bottom:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2)}
+.chip i{width:14px;height:3px;display:inline-block}
+.chip button{border:0;background:transparent;color:var(--ink-3);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+/* tablas */
+.tblwrap{overflow:auto;max-height:440px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:7px 8px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+td.name{white-space:normal;min-width:130px;max-width:340px}
+thead th{position:sticky;top:0;background:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:700;border-bottom:2px solid var(--rule);cursor:pointer;user-select:none;vertical-align:bottom}
+thead th[aria-sort]{color:var(--ink)}
+thead th[aria-sort]::after{content:" ▾";font-size:10px}
+thead th[aria-sort="ascending"]::after{content:" ▴"}
+tfoot td{border-bottom:0;border-top:1px solid var(--rule)}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.sel td.name{font-weight:700}
+tbody tr.sel{background:#f1f5fa}
+td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
+.bar{display:inline-block;height:8px;background:var(--brand);vertical-align:middle;margin-left:6px;opacity:.85}
+.pill{font-size:11.5px;font-weight:600;padding:1px 8px;color:var(--ink)}
+.pill.b{background:var(--pill-b)} .pill.m{background:var(--pill-m)} .pill.a{background:var(--pill-a)}
+.note{font-size:12px;color:var(--ink-3);margin:8px 0 0}
+.notes{margin-top:60px;font-size:12.5px;color:var(--ink-2);border-top:2px solid var(--rule);padding-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 36px}
+.notes b{color:var(--brand);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+footer.inst{background:var(--brand);color:#ffffff;margin-top:40px}
+footer.inst .in{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3.5vw,40px);padding-block:22px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between}
+footer.inst img{height:56px;width:auto;display:block}
+footer.inst ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13px}
+footer.inst li span{color:#c0c6ce;margin-right:4px}
+footer.inst .tag{font-size:12px;color:#c0c6ce;width:100%;border-top:1px solid #42556c;padding-top:12px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Monitor de exportaciones</div>
+  <h1>Qué vende Colombia, desde dónde y a quién</h1>
+  <p class="deck">Valor y peso de las exportaciones de bienes mes a mes, desde enero de 2023, por departamento de origen, país de destino, producto, intensidad tecnológica, modo de transporte y empresa.</p>
+  <div class="byline">Por <b>Colombia en Datos</b> · Fuente: DIAN y DANE · Actualizado el 6 de octubre de 2026 · Datos hasta agosto de 2026 (cifras provisionales)</div>
+</header>
+
+<div class="filters" role="region" aria-label="Filtros del periodo">
+  <div class="frow">
+    <div class="fld"><label for="fYear">Año</label><select id="fYear"></select></div>
+    <div class="fld"><label>Periodo</label>
+      <div class="segb" id="fMode" role="group" aria-label="Periodo">
+        <button type="button" data-v="mes">Mes</button><button type="button" data-v="acum">Acumulado del año</button><button type="button" data-v="anio">Año completo</button>
+      </div></div>
+    <div class="fld" id="fMonthWrap"><label for="fMonth">Mes</label><select id="fMonth"></select></div>
+    <div class="fld"><label for="fCmp">Comparar con</label><select id="fCmp"></select></div>
+    <div class="fld"><label>Medida</label>
+      <div class="segb" id="fMetric" role="group" aria-label="Medida">
+        <button type="button" data-v="0">Valor FOB</button><button type="button" data-v="1">Peso neto</button>
+      </div></div>
+    <div class="periodo" id="periodoTxt" aria-live="polite"></div>
+  </div>
+</div>
+
+<section id="resumen" aria-labelledby="h-res">
+  <h2 id="h-res" hidden>Resumen del periodo</h2>
+  <p class="lead" id="lead"></p>
+  <div class="figs" id="kpis"></div>
+  <p class="note" id="resNote"></p>
+  <div class="grid2" style="margin-top:34px">
+    <div class="card"><h3 class="ctitle" id="trendTitle">Exportaciones mes a mes</h3><p class="sub" id="trendSub"></p><div class="chart" id="cTrend"></div><p class="src">Fuente: DIAN, DANE. Cálculos: Colombia en Datos.</p></div>
+    <div class="card"><h3 class="ctitle" id="tipoTitle">Minero-energéticas y no minero-energéticas</h3><p class="sub">Composición mensual, enero de 2023 a agosto de 2026.</p><div class="chart" id="cTipo"></div><p class="src">Fuente: DIAN, DANE. Cálculos: Colombia en Datos.</p></div>
+  </div>
+</section>
+
+<section id="territorio" aria-labelledby="h-terr">
+  <div class="sh"><div class="num">1 · Territorio</div><h2 id="h-terr">¿Desde qué departamentos se exporta?</h2><p>Haga clic en el mapa o marque filas de la tabla para comparar la evolución de varios departamentos.</p></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="tools"><h3>Valor exportado por departamento de origen</h3>
+        <div class="seg" id="mapMode"><button type="button" data-v="val" aria-pressed="true">Nivel</button><button type="button" data-v="var">Variación</button></div></div>
+      <div class="chart map" id="cMapCol"></div>
+      <p class="src">"Departamentos varios" (sobre todo petróleo sin un único origen) no aparece en el mapa. Mapa: SVG Maps, CC BY 4.0.</p>
+    </div>
+    <div class="card" id="pDepto"></div>
+  </div>
+</section>
+
+<section id="destinos" aria-labelledby="h-dest">
+  <div class="sh"><div class="num">2 · Destinos</div><h2 id="h-dest">¿A qué países se exporta?</h2><p>Los registros sin país identificado aparecen como "País no declarado". Algunos territorios pequeños no se ven en el mapa, pero sí en la tabla.</p></div>
+  <div class="grid2">
+    <div class="card"><div class="tools"><h3>Valor exportado por país de destino</h3>
+      <div class="seg" id="wmapMode"><button type="button" data-v="val" aria-pressed="true">Nivel</button><button type="button" data-v="var">Variación</button></div></div>
+      <div class="chart map" id="cMapWorld"></div><p class="src">Mapa: Natural Earth vía world-atlas. Arrastre y use la rueda para acercar.</p></div>
+    <div class="card" id="pPais"></div>
+  </div>
+</section>
+
+<section id="productos" aria-labelledby="h-prod">
+  <div class="sh"><div class="num">3 · Productos</div><h2 id="h-prod">¿Qué se exporta?</h2><p>Elija la clasificación. La selección de la tabla controla la gráfica de evolución.</p></div>
+  <div class="tabs" role="tablist" id="prodTabs">
+    <button role="tab" data-k="grupo">Grupos de productos</button>
+    <button role="tab" data-k="tec">Intensidad tecnológica</button>
+    <button role="tab" data-k="tipo">Minero y no minero</button>
+    <button role="tab" data-k="capitulo">Capítulo arancelario</button>
+    <button role="tab" data-k="producto">Subpartida (250 principales)</button>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3 id="treeTitle">Composición del periodo</h3><p class="sub">El área es proporcional al valor del periodo. Azul: creció frente al periodo de comparación; rojo: cayó.</p><div class="chart" id="cTree" style="height:560px"></div></div>
+    <div class="card" id="pProd"></div>
+  </div>
+</section>
+
+<section id="transporte" aria-labelledby="h-tr">
+  <div class="sh"><div class="num">4 · Transporte</div><h2 id="h-tr">¿Cómo sale la carga?</h2><p>El oro, de alto valor y poco peso, sale por vía aérea; el carbón y el petróleo, por vía marítima. Cambie la medida a toneladas para ver el contraste.</p></div>
+  <div class="card" id="pModo"></div>
+</section>
+
+<section id="empresas" aria-labelledby="h-emp">
+  <div class="sh"><div class="num">5 · Empresas</div><h2 id="h-emp">¿Quiénes son los mayores exportadores?</h2><p>La fuente solo incluye las 10 mayores empresas minero-energéticas y las 10 mayores no minero-energéticas de cada mes. Un vacío significa que la empresa no estuvo en esa lista, no que no exportó.</p></div>
+  <div class="grid2">
+    <div class="card"><div class="tools"><h3>Ranking del periodo</h3>
+      <div class="seg" id="empType"><button type="button" data-v="all" aria-pressed="true">Todas</button><button type="button" data-v="M">Minero-energéticas</button><button type="button" data-v="N">No minero</button></div></div>
+      <div class="chart tall" id="cEmp"></div></div>
+    <div class="card"><h3>Detalle por empresa</h3><p class="sub">Meses del periodo en que la empresa figura en la lista.</p>
+      <div class="tools"><input type="search" id="empQ" placeholder="Buscar empresa" aria-label="Buscar empresa"></div>
+      <div class="tblwrap"><table id="tEmp"></table></div></div>
+  </div>
+</section>
+
+<section id="concentracion" aria-labelledby="h-ihh">
+  <div class="sh"><div class="num">6 · Concentración</div><h2 id="h-ihh">¿Qué tan concentradas están las exportaciones de cada departamento?</h2><p>Índice Herfindahl-Hirschman (IHH, de 0 a 1). Un valor alto indica que pocos productos o pocos destinos explican casi todo lo que exporta el departamento. 2026 corresponde a enero-agosto.</p></div>
+  <div class="card">
+    <div class="tools">
+      <div class="seg" id="ihhDim"><button type="button" data-v="prod" aria-pressed="true">Por producto</button><button type="button" data-v="pais">Por país de destino</button></div>
+      <label for="ihhYear" class="note" style="margin:0">Año</label><select id="ihhYear"></select>
+      <span class="pill b">Baja</span><span class="pill m">Moderada</span><span class="pill a">Alta</span>
+    </div>
+    <div class="chart tall" id="cIhh"></div>
+  </div>
+</section>
+
+<div class="notes">
+  <div><b>Fuente</b>DIAN, registros de exportaciones procesados por Colombia en Datos (2023-2026, corte agosto de 2026), consistentes con el boletín EXPO del DANE del 5 de octubre de 2026. Valores en millones de dólares FOB; peso en miles de toneladas netas. Cifras provisionales.</div>
+  <div><b>Cómo leer este tablero</b>La base viene agregada por una dimensión a la vez (departamento, país, producto, empresa), así que los filtros de cada sección no se cruzan entre sí: no es posible ver, por ejemplo, qué productos exporta un departamento a un país.</div>
+  <div><b>Mapas</b>Colombia: SVG Maps (@svg-maps/colombia, CC BY 4.0). Mundo: Natural Earth vía world-atlas.</div>
+</div>
+</div>
+<footer class="inst"><div class="in">
+  <ul><li><span>X</span>@colendatos</li><li><span>Instagram</span>@coldatos</li><li><span>Facebook</span>Colombia en Datos</li><li><span>LinkedIn</span>Colombia en Datos</li></ul>
+  <div class="tag">Datos que conectan, decisiones que transforman. · colombiaendatos.com</div>
+</div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('data').textContent);
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MA=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const T=D.months.length, LASTY=2026, LASTM=8;
+const S={year:2026,mode:'mes',month:8,cmp:2025,metric:0};
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let C={};
+function readColors(){C={accent:css('--accent'),ink:css('--ink'),ink2:css('--ink-2'),ink3:css('--ink-3'),line:css('--line'),surface:css('--surface'),brand:css('--brand'),cmp:css('--cmp'),up:css('--up'),down:css('--down'),
+  ser:[1,2,3,4,5,6,7,8].map(i=>css('--s'+i)),map:[0,1,2,3].map(i=>css('--map'+i)),pb:css('--pill-b'),pm:css('--pill-m'),pa:css('--pill-a')};}
+readColors();
+const nf=(x,d=1)=>x==null||!isFinite(x)?'n.d.':x.toLocaleString('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d});
+const unit=()=>S.metric?'mil t':'US$ M';
+const fmtV=x=>nf(x,1);
+const pct=(a,b)=>(b>0?(a/b-1)*100:null);
+const chgHTML=(v,suffix=' %')=>v==null?'<span class="chg">n.d.</span>':`<span class="chg ${v>=0?'up':'down'}">${v>=0?'+':''}${nf(v,1)}${suffix}</span>`;
+const idxOf=(y,m)=>D.months.indexOf(`${y}-${String(m).padStart(2,'0')}`);
+function period(y){
+  let ms=[]; if(S.mode==='mes') ms=[S.month]; else if(S.mode==='acum'){for(let m=1;m<=S.month;m++)ms.push(m);} else {for(let m=1;m<=12;m++)ms.push(m);}
+  return ms.map(m=>idxOf(y,m)).filter(i=>i>=0);
+}
+function label(y){
+  if(S.mode==='mes') return `${MESES[S.month-1]} de ${y}`;
+  if(S.mode==='acum') return S.month===1?`enero de ${y}`:`enero-${MESES[S.month-1]} de ${y}`;
+  return (y===LASTY?`${y} (enero-agosto)`:`${y}`);
+}
+const sumIdx=(arr,ix)=>ix.reduce((a,i)=>a+(arr[i]||0),0);
+function rowsFor(key){
+  const cur=period(S.year), prv=period(S.cmp); const out=[];
+  for(const [name,s] of Object.entries(D[key])){const a=s[S.metric]; out.push({name,cur:sumIdx(a,cur),prv:sumIdx(a,prv),series:a});}
+  const tot=out.reduce((a,r)=>a+r.cur,0);
+  out.forEach(r=>{r.share=tot>0?r.cur/tot*100:0;r.var=pct(r.cur,r.prv);r.dif=r.cur-r.prv;});
+  return out;
+}
+/* -------- charts registry -------- */
+const charts={};
+function ch(id){if(!charts[id]){charts[id]=echarts.init(document.getElementById(id),null,{renderer:'canvas'});} return charts[id];}
+window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
+const baseText=()=>({color:C.ink2,fontFamily:'Open Sans, Segoe UI, sans-serif'});
+const tip=()=>({backgroundColor:'#ffffff',borderColor:C.ink,borderWidth:1,padding:[8,10],textStyle:{color:C.ink,fontSize:12,fontFamily:'Open Sans, sans-serif'},extraCssText:'border-radius:0;box-shadow:0 2px 8px rgba(0,0,0,.12)'});
+const axisCommon=()=>({axisLine:{lineStyle:{color:C.line}},axisLabel:{color:C.ink3},splitLine:{lineStyle:{color:C.line,opacity:.6}},axisTick:{show:false}});
+
+/* -------- filters -------- */
+const fYear=document.getElementById('fYear'),fMonth=document.getElementById('fMonth'),fCmp=document.getElementById('fCmp');
+[2026,2025,2024,2023].forEach(y=>{fYear.add(new Option(y,y));});
+[2025,2024,2023,2026].forEach(y=>{fCmp.add(new Option(y,y));});
+function fillMonths(){const max=S.year===LASTY?LASTM:12;const cur=S.month;fMonth.innerHTML='';for(let m=1;m<=max;m++)fMonth.add(new Option(MESES[m-1][0].toUpperCase()+MESES[m-1].slice(1),m));S.month=Math.min(cur,max);fMonth.value=S.month;}
+function syncSeg(id,v){document.querySelectorAll(`#${id} button`).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(v))));}
+fYear.value=S.year;fCmp.value=S.cmp;fillMonths();syncSeg('fMode',S.mode);syncSeg('fMetric',S.metric);
+fYear.onchange=()=>{S.year=+fYear.value;S.cmp=S.year-1>=2023?S.year-1:2024;fCmp.value=S.cmp;fillMonths();renderAll();};
+fMonth.onchange=()=>{S.month=+fMonth.value;renderAll();};
+fCmp.onchange=()=>{S.cmp=+fCmp.value;renderAll();};
+document.querySelectorAll('#fMode button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.v;syncSeg('fMode',S.mode);document.getElementById('fMonthWrap').hidden=S.mode==='anio';renderAll();});
+document.querySelectorAll('#fMetric button').forEach(b=>b.onclick=()=>{S.metric=+b.dataset.v;syncSeg('fMetric',S.metric);renderAll();});
+
+/* -------- resumen -------- */
+function renderResumen(){
+  const cur=period(S.year),prv=period(S.cmp);
+  const v=sumIdx(D.total[0],cur),v0=sumIdx(D.total[0],prv),k=sumIdx(D.total[1],cur),k0=sumIdx(D.total[1],prv);
+  const tp=rowsFor('tipo');const me=tp.find(r=>r.name.startsWith('Minero'))||{},nm=tp.find(r=>r.name.startsWith('No minero'))||{};
+  const meV=sumIdx(D.tipo['Minero - energético'][0],cur),meV0=sumIdx(D.tipo['Minero - energético'][0],prv);
+  const nmV=sumIdx(D.tipo['No minero - energético'][0],cur),nmV0=sumIdx(D.tipo['No minero - energético'][0],prv);
+  const pr=k>0?v/k*1000:null,pr0=k0>0?v0/k0*1000:null;
+  const partial=(S.mode==='anio'&&(S.year===LASTY||S.cmp===LASTY));
+  document.getElementById('periodoTxt').innerHTML=`<b>${label(S.year)}</b> frente a ${label(S.cmp)}`;
+  document.getElementById('resNote').textContent=partial?'Atención: 2026 solo tiene datos hasta agosto, así que la comparación de año completo no es homogénea.':'';
+  const vv=pct(v,v0), mm=pct(meV,meV0), nn=pct(nmV,nmV0);
+  const verb=x=>x==null?'':(x>=0?`<span class="up">${nf(x,1)} % más</span>`:`<span class="down">${nf(-x,1)} % menos</span>`);
+  const sg=x=>x==null?'n.d.':(x>=0?'+':'')+nf(x,1)+' %';
+  document.getElementById('lead').innerHTML=`En ${label(S.year)}, Colombia exportó <b>US$ ${nf(v,1)} millones</b>, ${verb(vv)} que en ${label(S.cmp)}. Las ventas minero-energéticas variaron ${sg(mm)} y las no minero-energéticas, ${sg(nn)}.`;
+  const fig=(l,val,u,d)=>`<div class="fig"><div class="l">${l}</div><div class="v">${val}</div><div class="u">${u}</div><div class="d">${d}</div></div>`;
+  document.getElementById('kpis').innerHTML=
+    fig('Total exportado',nf(v,1),'millones de US$ FOB',`${chgHTML(vv)} · antes ${nf(v0,1)}`)+
+    fig('Minero-energéticas',nf(meV,1),'millones de US$ FOB',`${chgHTML(mm)} · ${nf(v?meV/v*100:0,1)} % del total`)+
+    fig('No minero-energéticas',nf(nmV,1),'millones de US$ FOB',`${chgHTML(nn)} · ${nf(v?nmV/v*100:0,1)} % del total`)+
+    fig('Peso exportado',nf(k/1000,2),'millones de toneladas',chgHTML(pct(k,k0)))+
+    fig('Valor por tonelada',nf(pr,0),'US$ por tonelada',chgHTML(pct(pr,pr0)));
+  // trend: one line per year
+  const years=[2023,2024,2025,2026];const cols={2023:C.cmp,2024:C.cmp,2025:C.ink3,2026:C.brand};
+  const ser=years.map(y=>({name:String(y),type:'line',smooth:false,symbol:'circle',symbolSize:y===S.year?7:4,showSymbol:true,
+    lineStyle:{width:y===S.year?3:(y===S.cmp?2:1.5),color:y===S.year?C.brand:(y===S.cmp?C.accent:C.cmp),opacity:y===S.year||y===S.cmp?1:.8},
+    itemStyle:{color:y===S.year?C.brand:(y===S.cmp?C.accent:C.cmp)},
+    data:MA.map((_,m)=>{const i=idxOf(y,m+1);return i<0?null:+(D.total[S.metric][i]).toFixed(1);}),
+    markArea:y===S.year?{silent:true,itemStyle:{color:'#eef1f5',opacity:1},data:[[{xAxis:MA[(S.mode==='mes'?S.month:1)-1]},{xAxis:MA[(S.mode==='anio'?(S.year===LASTY?LASTM:12):S.month)-1]}]]}:undefined}));
+  ch('cTrend').setOption({textStyle:baseText(),grid:{left:56,right:16,top:34,bottom:28},tooltip:{trigger:'axis',...tip(),valueFormatter:x=>x==null?'n.d.':nf(x,1)+' '+unit()},
+    legend:{top:0,right:0,textStyle:{color:C.ink2},itemWidth:16,itemHeight:3,icon:'rect'},
+    xAxis:{type:'category',data:MA,...axisCommon(),splitLine:{show:false}},yAxis:{type:'value',scale:true,...axisCommon(),axisLabel:{color:C.ink3,formatter:x=>nf(x,0)}},series:ser},true);
+  document.getElementById('trendSub').innerHTML=`${S.metric?'Peso neto, miles de toneladas':'Valor FOB, millones de dólares'}. <b style="color:${C.brand}">${S.year}</b> frente a <b style="color:${C.accent}">${S.cmp}</b>; los demás años en gris. El periodo activo está sombreado.`;document.getElementById('trendTitle').textContent=`${S.year} ${vv==null?'frente a':(vv>=0?'supera a':'queda por debajo de')} ${S.cmp} en el periodo seleccionado`;
+  // tipo stacked
+  const lab=D.months.map(s=>{const [y,m]=s.split('-');return MA[+m-1]+'-'+y.slice(2);});
+  const t=D.tipo;const mk=(n,c)=>({name:n.replace(' - ','-'),type:'bar',stack:'t',barCategoryGap:'18%',itemStyle:{color:c,borderColor:C.surface,borderWidth:1},data:t[n][S.metric].map(x=>+x.toFixed(1))});
+  ch('cTipo').setOption({textStyle:baseText(),grid:{left:56,right:12,top:34,bottom:28},tooltip:{trigger:'axis',...tip(),valueFormatter:x=>nf(x,1)+' '+unit()},
+    legend:{top:0,right:0,textStyle:{color:C.ink2}},xAxis:{type:'category',data:lab,...axisCommon(),splitLine:{show:false},axisLabel:{color:C.ink3,interval:5}},
+    yAxis:{type:'value',...axisCommon(),axisLabel:{color:C.ink3,formatter:x=>nf(x,0)}},
+    series:[mk('Minero - energético',C.brand),mk('No minero - energético',C.map[2])]},true);
+}
+
+/* -------- generic dimension panel -------- */
+const SEL={}; const PALIDX={};
+function colorFor(key,name){PALIDX[key]=PALIDX[key]||{};if(!(name in PALIDX[key])){const used=Object.values(PALIDX[key]);let i=0;while(used.includes(i))i++;PALIDX[key][name]=i%8;}return C.ser[PALIDX[key][name]];}
+function panel(key,el,opts){
+  opts=opts||{};SEL[key]=SEL[key]||new Set(opts.defaultSel||[]);
+  const st=el._st||(el._st={q:'',sort:'cur',dir:-1,all:false});
+  const rows=rowsFor(key).filter(r=>(r.cur>0||r.prv>0)&&r.name!=='Sin dato');
+  const sorted=rows.slice().sort((a,b)=>{const x=a[st.sort],y=b[st.sort];if(st.sort==='name')return st.dir*a.name.localeCompare(b.name,'es');return st.dir*(((x??-1e18))-((y??-1e18)));});
+  const q=st.q.trim().toLowerCase();
+  const vis=sorted.filter(r=>!q||r.name.toLowerCase().includes(q));
+  const lim=st.all||q?vis:vis.slice(0,opts.limit||20);
+  const maxCur=Math.max(...rows.map(r=>r.cur),1);
+  if(!el._built){
+    el.innerHTML=`<h3>${opts.title}</h3><p class="sub">${opts.sub||''}</p>
+     <div class="tools"><input type="search" placeholder="${opts.ph||'Buscar'}" aria-label="${opts.ph||'Buscar'}"><button class="btn" data-a="clear" type="button">Limpiar selección</button><button class="btn" data-a="all" type="button"></button></div>
+     <div class="chips" aria-live="polite"></div>
+     <div class="chart" style="height:250px"></div>
+     <div class="tblwrap" style="margin-top:8px"><table></table></div>`;
+    el._built=true;
+    const inp=el.querySelector('input');inp.addEventListener('input',()=>{st.q=inp.value;panel(key,el,opts);});
+    el.querySelector('[data-a=clear]').onclick=()=>{SEL[key].clear();panel(key,el,opts);opts.onSel&&opts.onSel();};
+    el.querySelector('[data-a=all]').onclick=()=>{st.all=!st.all;panel(key,el,opts);};
+    el._chart=echarts.init(el.querySelector('.chart'));charts[key+'_line']=el._chart;
+  }
+  el.querySelector('[data-a=all]').textContent=st.all?'Ver principales':`Ver todas (${rows.length})`;
+  el.querySelector('[data-a=all]').hidden=rows.length<=(opts.limit||20);
+  const cols=[['','sel'],[opts.colName||'Categoría','name'],[label(S.year),'cur'],[label(S.cmp),'prv'],['Var. %','var'],['Part. %','share']];
+  const th=cols.map(([t,k])=>k==='sel'?'<th scope="col"><span hidden>Seleccionar</span></th>':`<th scope="col" data-k="${k}" ${st.sort===k?`aria-sort="${st.dir<0?'descending':'ascending'}"`:''}>${t}</th>`).join('');
+  const tb=lim.map(r=>{const on=SEL[key].has(r.name);return `<tr class="${on?'sel':''}"><td><input type="checkbox" data-n="${encodeURIComponent(r.name)}" ${on?'checked':''} aria-label="Seleccionar ${r.name}"></td><td class="name">${r.name}</td>
+    <td>${fmtV(r.cur)}<span class="bar" style="width:${Math.max(2,r.cur/maxCur*40)}px"></span></td><td>${fmtV(r.prv)}</td><td>${r.var==null?'<span class="chg">nuevo</span>':chgHTML(r.var,'')}</td><td>${nf(r.share,1)}</td></tr>`;}).join('');
+  const totC=rows.reduce((a,r)=>a+r.cur,0),totP=rows.reduce((a,r)=>a+r.prv,0);
+  el.querySelector('table').innerHTML=`<thead><tr>${th}</tr></thead><tbody>${tb}</tbody><tfoot><tr><td></td><td class="name"><b>Total</b></td><td><b>${fmtV(totC)}</b></td><td><b>${fmtV(totP)}</b></td><td>${chgHTML(pct(totC,totP),'')}</td><td>100,0</td></tr></tfoot>`;
+  el.querySelectorAll('thead th[data-k]').forEach(h=>h.onclick=()=>{const k=h.dataset.k;if(st.sort===k)st.dir*=-1;else{st.sort=k;st.dir=k==='name'?1:-1;}panel(key,el,opts);});
+  el.querySelectorAll('tbody input').forEach(c=>c.onchange=()=>{const n=decodeURIComponent(c.dataset.n);c.checked?SEL[key].add(n):SEL[key].delete(n);panel(key,el,opts);opts.onSel&&opts.onSel();});
+  // chips
+  const sel=[...SEL[key]];
+  el.querySelector('.chips').innerHTML=sel.length?sel.map(n=>`<span class="chip"><i style="background:${colorFor(key,n)}"></i>${n.length>48?n.slice(0,46)+'…':n}<button type="button" aria-label="Quitar ${n}" data-n="${encodeURIComponent(n)}">×</button></span>`).join(''):`<span class="note" style="margin:0">Sin selección: la gráfica muestra las 5 principales del periodo.</span>`;
+  el.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{SEL[key].delete(decodeURIComponent(b.dataset.n));panel(key,el,opts);opts.onSel&&opts.onSel();});
+  // line chart: selected or top5, all months
+  const show=sel.length?sel:rows.slice().sort((a,b)=>b.cur-a.cur).slice(0,5).map(r=>r.name);
+  if(!sel.length){PALIDX[key]={};}
+  const lab=D.months.map(s=>{const [y,m]=s.split('-');return MA[+m-1]+'-'+y.slice(2);});
+  el._chart.setOption({textStyle:baseText(),grid:{left:52,right:12,top:12,bottom:26},tooltip:{trigger:'axis',...tip(),confine:true,valueFormatter:x=>x==null?'n.d.':nf(x,1)+' '+unit()},
+    xAxis:{type:'category',data:lab,...axisCommon(),splitLine:{show:false},axisLabel:{color:C.ink3,interval:5}},
+    yAxis:{type:'value',...axisCommon(),axisLabel:{color:C.ink3,formatter:x=>nf(x,0)}},
+    series:show.map(n=>({name:n.length>40?n.slice(0,38)+'…':n,type:'line',showSymbol:false,lineStyle:{width:2},itemStyle:{color:colorFor(key,n)},data:D[key][n][S.metric].map(x=>+x.toFixed(2))}))},true);
+  return rows;
+}
+
+/* -------- maps -------- */
+echarts.registerMap('colombia',{svg:D.col_svg});
+echarts.registerMap('mundo',D.world);
+let mapMode='val',wmapMode='val';
+function mapOpt(mapName,rows,mode,key){
+  const data=rows.map(r=>({name:r.name,value:mode==='val'?+r.cur.toFixed(2):(r.var==null?null:+r.var.toFixed(1)),cur:r.cur,v:r.var,share:r.share}));
+  const vals=data.map(d=>d.value).filter(v=>v!=null);
+  const vm=mode==='val'?{type:'continuous',min:0,max:Math.max(...vals,1),inRange:{color:C.map},text:['Mayor','Menor'],calculable:false,left:8,bottom:8,itemWidth:10,itemHeight:90,textStyle:{color:C.ink3}}
+    :{type:'piecewise',left:8,bottom:8,textStyle:{color:C.ink3},itemWidth:12,itemHeight:10,pieces:[{lt:-25,label:'Cae más de 25 %',color:C.down},{gte:-25,lt:0,label:'Cae hasta 25 %',color:mix(C.down,C.map[0])},{gte:0,lt:25,label:'Crece hasta 25 %',color:mix(C.up,C.map[0])},{gte:25,label:'Crece más de 25 %',color:C.up}]};
+  return {tooltip:{trigger:'item',...tip(),formatter:p=>{const d=p.data;if(!d)return `<b>${p.name}</b><br>Sin exportaciones registradas`;return `<b>${p.name}</b><br>${label(S.year)}: ${nf(d.cur,1)} ${unit()}<br>Variación: ${d.v==null?'n.d.':nf(d.v,1)+' %'}<br>Participación: ${nf(d.share,1)} %`;}},
+    visualMap:vm,series:[{type:'map',map:mapName,roam:mapName==='mundo',layoutCenter:['52%','50%'],layoutSize:mapName==='mundo'?'118%':'98%',selectedMode:'multiple',aspectScale:mapName==='mundo'?0.85:1,
+      itemStyle:{areaColor:C.map[0],borderColor:C.surface,borderWidth:.7},emphasis:{label:{show:false},itemStyle:{areaColor:'#f7dc7f'}},
+      select:{label:{show:false},itemStyle:{areaColor:'#f2c230',borderColor:C.ink,borderWidth:1.2}},
+      data:data.map(d=>({...d,selected:SEL[key]&&SEL[key].has(d.name)}))}]};
+}
+function mix(a,b){try{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const x=p(a),y=p(b);return '#'+x.map((v,i)=>Math.round(v*.5+y[i]*.5).toString(16).padStart(2,'0')).join('');}catch(e){return a;}}
+function bindMap(id,key,el,opts){const c=ch(id);c.off('click');c.on('click',p=>{if(!p.name||!D[key][p.name])return;SEL[key].has(p.name)?SEL[key].delete(p.name):SEL[key].add(p.name);panel(key,el,opts);opts.onSel();});}
+const pDepto=document.getElementById('pDepto'),pPais=document.getElementById('pPais');
+const deptoOpts={title:'Departamentos de origen',sub:'Valores del periodo. Seleccione hasta varios para comparar su evolución.',colName:'Departamento',ph:'Buscar departamento',limit:34,defaultSel:['Antioquia','Cesar','La Guajira','Caldas','Huila'],onSel:()=>renderMapCol()};
+const paisOpts={title:'Países de destino',sub:'Valores del periodo. Seleccione países para comparar su evolución.',colName:'País',ph:'Buscar país',limit:20,defaultSel:['Estados Unidos','Panamá','Italia','India'],onSel:()=>renderMapWorld()};
+function renderMapCol(){const rows=rowsFor('depto');ch('cMapCol').setOption(mapOpt('colombia',rows,mapMode,'depto'),true);bindMap('cMapCol','depto',pDepto,deptoOpts);}
+function renderMapWorld(){const rows=rowsFor('pais');ch('cMapWorld').setOption(mapOpt('mundo',rows,wmapMode,'pais'),true);bindMap('cMapWorld','pais',pPais,paisOpts);}
+document.querySelectorAll('#mapMode button').forEach(b=>b.onclick=()=>{mapMode=b.dataset.v;syncSeg('mapMode',mapMode);renderMapCol();});
+document.querySelectorAll('#wmapMode button').forEach(b=>b.onclick=()=>{wmapMode=b.dataset.v;syncSeg('wmapMode',wmapMode);renderMapWorld();});
+
+/* -------- productos -------- */
+let prodKey='grupo';const pProd=document.getElementById('pProd');
+const prodMeta={grupo:{t:'Grupos de productos',c:'Grupo',sel:['Minero - energético','Agropecuario','Industria básica','Agroindustrial']},
+  tec:{t:'Intensidad tecnológica (clasificación CEPAL/Lall)',c:'Nivel tecnológico',sel:['Primarios','Manufacturas basadas en recursos naturales','Otras transacciones','Manufacturas de tecnología media','Manufactura de alta tecnología']},
+  tipo:{t:'Minero-energéticas y no minero-energéticas',c:'Tipo',sel:['Minero - energético','No minero - energético']},
+  capitulo:{t:'Capítulos del arancel',c:'Capítulo',sel:['27 · Combustibles minerales y petróleo','71 · Oro, piedras y metales preciosos','09 · Café, té y especias','06 · Plantas vivas y flores']},
+  producto:{t:'Subpartidas arancelarias',c:'Subpartida',sel:[]}};
+function renderProd(){
+  const m=prodMeta[prodKey];
+  pProd._built=false;pProd._st=null;if(pProd._chart){pProd._chart.dispose();}
+  if(!SEL[prodKey])SEL[prodKey]=new Set(m.sel);
+  const rows=panel(prodKey,pProd,{title:m.t,sub:prodKey==='producto'?'Las 250 subpartidas de mayor valor en 2025-2026; el resto se agrupa. Busque por código o descripción.':'Valores del periodo seleccionado.',colName:m.c,ph:prodKey==='producto'?'Buscar subpartida, por ejemplo café, oro o 2709':'Buscar',limit:prodKey==='producto'?25:30,onSel:()=>{}});
+  document.querySelectorAll('#prodTabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.k===prodKey)));
+  document.getElementById('treeTitle').textContent='Composición: '+m.t.toLowerCase();
+  const top=rows.filter(r=>r.cur>0).sort((a,b)=>b.cur-a.cur);const lim=prodKey==='producto'?40:30;
+  const items=top.slice(0,lim).map((r,i)=>({name:r.name,value:+r.cur.toFixed(2),v:r.var,share:r.share,itemStyle:{color:r.var==null?C.cmp:(r.var>=0?mix(C.up,C.brand):mix(C.down,C.brand))}}));
+  ch('cTree').setOption({tooltip:{...tip(),formatter:p=>`<b>${p.name}</b><br>${nf(p.value,1)} ${unit()} · ${nf(p.data.share,1)} %<br>Variación: ${p.data.v==null?'n.d.':nf(p.data.v,1)+' %'}`},
+    series:[{type:'treemap',roam:false,nodeClick:false,breadcrumb:{show:false},width:'100%',height:'92%',top:0,
+      itemStyle:{borderColor:C.surface,borderWidth:2,gapWidth:2},
+      label:{show:true,color:'#ffffff',fontSize:12,fontFamily:'Open Sans, sans-serif',overflow:'truncate',formatter:p=>`${p.name.length>38?p.name.slice(0,36)+'…':p.name}\n${nf(p.data.share,1)} %`},
+      upperLabel:{show:false},data:items}],
+    graphic:[{type:'text',left:0,bottom:0,style:{text:'Color: verde si creció frente al periodo de comparación, rojo si cayó.',fill:C.ink3,fontSize:11}}]},true);
+}
+document.querySelectorAll('#prodTabs button').forEach(b=>b.onclick=()=>{prodKey=b.dataset.k;renderProd();});
+
+/* -------- transporte -------- */
+const pModo=document.getElementById('pModo');
+
+/* -------- empresas -------- */
+let empType='all';
+document.querySelectorAll('#empType button').forEach(b=>b.onclick=()=>{empType=b.dataset.v;syncSeg('empType',empType);renderEmp();});
+const empQ=document.getElementById('empQ');empQ.oninput=()=>renderEmp();
+function renderEmp(){
+  const cur=period(S.year),prv=period(S.cmp);
+  let rows=Object.entries(D.empresas).map(([n,e])=>{const c=cur.map(i=>e.v[i]),p=prv.map(i=>e.v[i]);
+    return {name:n,t:e.t,cur:c.reduce((a,x)=>a+(x||0),0),nc:c.filter(x=>x!=null).length,prv:p.reduce((a,x)=>a+(x||0),0),np:p.filter(x=>x!=null).length};}).filter(r=>r.nc>0);
+  if(empType!=='all')rows=rows.filter(r=>r.t===empType);
+  rows.sort((a,b)=>b.cur-a.cur);
+  const top=rows.slice(0,15).reverse();
+  ch('cEmp').setOption({textStyle:baseText(),grid:{left:8,right:60,top:8,bottom:20,containLabel:true},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},...tip(),valueFormatter:x=>nf(x,1)+' US$ M'},
+    legend:{show:false},xAxis:{type:'value',...axisCommon(),axisLabel:{color:C.ink3,formatter:x=>nf(x,0)}},
+    yAxis:{type:'category',data:top.map(r=>r.name.length>34?r.name.slice(0,32)+'…':r.name),...axisCommon(),axisLabel:{color:C.ink2,fontSize:11}},
+    series:[{type:'bar',name:label(S.year),data:top.map(r=>({value:+r.cur.toFixed(1),itemStyle:{color:r.t==='M'?C.brand:C.accent}})),barWidth:'62%',
+      label:{show:true,position:'right',color:C.ink2,fontSize:11,formatter:p=>nf(p.value,1)}}]},true);
+  const q=empQ.value.trim().toLowerCase();
+  const tr=rows.filter(r=>!q||r.name.toLowerCase().includes(q)).map(r=>`<tr><td class="name">${r.name}</td><td>${r.t==='M'?'Minero-energética':'No minero'}</td><td>${nf(r.cur,1)}</td><td>${r.nc} de ${cur.length}</td><td>${r.np?nf(r.prv,1):'n.d.'}</td></tr>`).join('');
+  document.getElementById('tEmp').innerHTML=`<thead><tr><th>Empresa</th><th>Tipo</th><th>${label(S.year)}</th><th>Meses en lista</th><th>${label(S.cmp)}</th></tr></thead><tbody>${tr||'<tr><td class="name" colspan="5">Ninguna empresa coincide con la búsqueda.</td></tr>'}</tbody>`;
+  document.querySelector('#tEmp').closest('.card').querySelector('.sub').textContent='Valores en millones de dólares FOB (la fuente de empresas solo trae valor). "Meses en lista" indica cuántos meses del periodo aparece la empresa.';
+}
+
+/* -------- IHH -------- */
+let ihhDim='prod';const ihhYear=document.getElementById('ihhYear');[2026,2025,2024,2023].forEach(y=>ihhYear.add(new Option(y===2026?'2026 (ene-ago)':y,y)));
+ihhYear.onchange=renderIhh;document.querySelectorAll('#ihhDim button').forEach(b=>b.onclick=()=>{ihhDim=b.dataset.v;syncSeg('ihhDim',ihhDim);renderIhh();});
+function renderIhh(){
+  const src=ihhDim==='prod'?D.ihh_prod:D.ihh_pais;const y=+ihhYear.value;
+  const rows=Object.entries(src).filter(([n,v])=>v[y]&&n!=='Total nacional').map(([n,v])=>({n,v:v[y][0],c:v[y][1],p:v[y-1]?v[y-1][0]:null})).sort((a,b)=>a.v-b.v);
+  const nat=src['Total nacional']&&src['Total nacional'][y];
+  const col=c=>c.startsWith('Alta')?'#d12a3c':(c.startsWith('Conc')?'#e0a92e':'#3289c7');
+  ch('cIhh').setOption({textStyle:baseText(),grid:{left:8,right:56,top:24,bottom:20,containLabel:true},
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},...tip(),formatter:ps=>{const r=rows[ps[0].dataIndex];return `<b>${r.n}</b><br>IHH ${y}: ${nf(r.v,3)} (${r.c.toLowerCase()})<br>Año anterior: ${r.p==null?'n.d.':nf(r.p,3)}`;}},
+    xAxis:{type:'value',max:1,...axisCommon(),axisLabel:{color:C.ink3,formatter:x=>nf(x,1)}},
+    yAxis:{type:'category',data:rows.map(r=>r.n),...axisCommon(),axisLabel:{color:C.ink2,fontSize:11}},
+    series:[{type:'bar',barWidth:'60%',data:rows.map(r=>({value:+r.v.toFixed(3),itemStyle:{color:col(r.c)}})),label:{show:true,position:'right',color:C.ink2,fontSize:10.5,formatter:p=>nf(p.value,2)},
+      markLine:nat?{symbol:'none',lineStyle:{color:C.ink,type:'dashed'},label:{color:C.ink2,formatter:`Nacional ${nf(nat[0],3)}`,position:'end'},data:[{xAxis:nat[0]}]}:undefined}]},true);
+  document.getElementById('cIhh').style.height=Math.max(440,rows.length*19+60)+'px';ch('cIhh').resize();
+}
+
+/* -------- render all -------- */
+function renderAll(){
+  renderResumen();
+  panel('depto',pDepto,deptoOpts);renderMapCol();
+  panel('pais',pPais,paisOpts);renderMapWorld();
+  renderProd();
+  panel('modo',pModo,{title:'Modo de transporte',sub:'Seleccione modos para comparar su evolución.',colName:'Modo',limit:10,defaultSel:['Marítimo','Aéreo','Terrestre (carretero)'],onSel:()=>{}});
+  renderEmp();renderIhh();
+}
+renderAll();
+// theme changes
+const rerender=()=>{readColors();PALIDX.depto={};Object.keys(PALIDX).forEach(k=>PALIDX[k]={});renderAll();};
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',rerender);
+new MutationObserver(rerender).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+})();
+</script>
