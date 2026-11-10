@@ -1,6 +1,6 @@
 # Monitor de Exportaciones de Colombia
 
-Tablero interactivo de **Colombia en Datos** con las exportaciones de bienes de Colombia, enero de 2023 a agosto de 2026: valor FOB y peso neto por departamento de origen, país de destino, grupo de productos, intensidad tecnológica, capítulo y subpartida arancelaria, modo de transporte, empresa y concentración (IHH).
+Tablero interactivo de **Colombia en Datos** con las exportaciones de bienes de Colombia, enero de 2023 a septiembre de 2026: valor FOB y peso neto por departamento de origen, país de destino, grupo de productos, intensidad tecnológica, capítulo y subpartida arancelaria, modo de transporte, empresa y concentración (IHH).
 
 ## Archivos
 

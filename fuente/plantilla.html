@@ -124,7 +124,7 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
   <div class="kicker">Monitor de exportaciones</div>
   <h1>Qué vende Colombia, desde dónde y a quién</h1>
   <p class="deck">Valor y peso de las exportaciones de bienes mes a mes, desde enero de 2023, por departamento de origen, país de destino, producto, intensidad tecnológica, modo de transporte y empresa.</p>
-  <div class="byline">Por <b>Colombia en Datos</b> · Fuente: DIAN y DANE · Actualizado el 6 de octubre de 2026 · Datos hasta agosto de 2026 (cifras provisionales)</div>
+  <div class="byline">Por <b>Colombia en Datos</b> · Fuente: DIAN y DANE · Actualizado el 10 de noviembre de 2026 · Datos hasta septiembre de 2026 (cifras provisionales)</div>
 </header>
 
 <div class="filters" role="region" aria-label="Filtros del periodo">
@@ -151,7 +151,7 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
   <p class="note" id="resNote"></p>
   <div class="grid2" style="margin-top:34px">
     <div class="card"><h3 class="ctitle" id="trendTitle">Exportaciones mes a mes</h3><p class="sub" id="trendSub"></p><div class="chart" id="cTrend"></div><p class="src">Fuente: DIAN, DANE. Cálculos: Colombia en Datos.</p></div>
-    <div class="card"><h3 class="ctitle" id="tipoTitle">Minero-energéticas y no minero-energéticas</h3><p class="sub">Composición mensual, enero de 2023 a agosto de 2026.</p><div class="chart" id="cTipo"></div><p class="src">Fuente: DIAN, DANE. Cálculos: Colombia en Datos.</p></div>
+    <div class="card"><h3 class="ctitle" id="tipoTitle">Minero-energéticas y no minero-energéticas</h3><p class="sub">Composición mensual, enero de 2023 a septiembre de 2026.</p><div class="chart" id="cTipo"></div><p class="src">Fuente: DIAN, DANE. Cálculos: Colombia en Datos.</p></div>
   </div>
 </section>
 
@@ -211,7 +211,7 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
 </section>
 
 <section id="concentracion" aria-labelledby="h-ihh">
-  <div class="sh"><h2 id="h-ihh">¿Qué tan concentradas están las exportaciones de cada departamento?</h2><p>Índice Herfindahl-Hirschman (IHH, de 0 a 1). Un valor alto indica que pocos productos o pocos destinos explican casi todo lo que exporta el departamento. 2026 corresponde a enero-agosto.</p></div>
+  <div class="sh"><h2 id="h-ihh">¿Qué tan concentradas están las exportaciones de cada departamento?</h2><p>Índice Herfindahl-Hirschman (IHH, de 0 a 1). Un valor alto indica que pocos productos o pocos destinos explican casi todo lo que exporta el departamento. 2026 corresponde a enero-septiembre.</p></div>
   <div class="card">
     <div class="tools">
       <div class="seg" id="ihhDim"><button type="button" data-v="prod" aria-pressed="true">Por producto</button><button type="button" data-v="pais">Por país de destino</button></div>
@@ -223,7 +223,7 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
 </section>
 
 <div class="notes">
-  <div><b>Fuente</b>DIAN, registros de exportaciones procesados por Colombia en Datos (2023-2026, corte agosto de 2026), consistentes con el boletín EXPO del DANE del 5 de octubre de 2026. Valores en millones de dólares FOB; peso en miles de toneladas netas. Cifras provisionales.</div>
+  <div><b>Fuente</b>DIAN, registros de exportaciones procesados por Colombia en Datos (2023-2026, corte septiembre de 2026), consistentes con el boletín EXPO del DANE del 4 de noviembre de 2026. Valores en millones de dólares FOB; peso en miles de toneladas netas. Cifras provisionales.</div>
   <div><b>Cómo leer este tablero</b>La base viene agregada por una dimensión a la vez (departamento, país, producto, empresa), así que los filtros de cada sección no se cruzan entre sí: no es posible ver, por ejemplo, qué productos exporta un departamento a un país.</div>
   <div><b>Mapas</b>Colombia: SVG Maps (@svg-maps/colombia, CC BY 4.0). Mundo: Natural Earth vía world-atlas.</div>
 </div>
@@ -235,8 +235,8 @@ td input{accent-color:var(--brand);width:15px;height:15px;cursor:pointer}
 const D = JSON.parse(document.getElementById('data').textContent);
 const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const MA=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const T=D.months.length, LASTY=2026, LASTM=8;
-const S={year:2026,mode:'mes',month:8,cmp:2025,metric:0};
+const T=D.months.length, LASTY=2026, LASTM=9;
+const S={year:2026,mode:'mes',month:9,cmp:2025,metric:0};
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 let C={};
 function readColors(){C={accent:css('--accent'),ink:css('--ink'),ink2:css('--ink-2'),ink3:css('--ink-3'),line:css('--line'),surface:css('--surface'),brand:css('--brand'),cmp:css('--cmp'),up:css('--up'),down:css('--down'),
@@ -255,7 +255,7 @@ function period(y){
 function label(y){
   if(S.mode==='mes') return `${MESES[S.month-1]} de ${y}`;
   if(S.mode==='acum') return S.month===1?`enero de ${y}`:`enero-${MESES[S.month-1]} de ${y}`;
-  return (y===LASTY?`${y} (enero-agosto)`:`${y}`);
+  return (y===LASTY?`${y} (enero-septiembre)`:`${y}`);
 }
 const sumIdx=(arr,ix)=>ix.reduce((a,i)=>a+(arr[i]||0),0);
 function rowsFor(key){
@@ -296,7 +296,7 @@ function renderResumen(){
   const pr=k>0?v/k*1000:null,pr0=k0>0?v0/k0*1000:null;
   const partial=(S.mode==='anio'&&(S.year===LASTY||S.cmp===LASTY));
   document.getElementById('periodoTxt').innerHTML=`<b>${label(S.year)}</b> frente a ${label(S.cmp)}`;
-  document.getElementById('resNote').textContent=partial?'Atención: 2026 solo tiene datos hasta agosto, así que la comparación de año completo no es homogénea.':'';
+  document.getElementById('resNote').textContent=partial?'Atención: 2026 solo tiene datos hasta septiembre, así que la comparación de año completo no es homogénea.':'';
   const vv=pct(v,v0), mm=pct(meV,meV0), nn=pct(nmV,nmV0);
   const verb=x=>x==null?'':(x>=0?`<span class="up">${nf(x,1)} % más</span>`:`<span class="down">${nf(-x,1)} % menos</span>`);
   const sg=x=>x==null?'n.d.':(x>=0?'+':'')+nf(x,1)+' %';
@@ -453,7 +453,7 @@ function renderEmp(){
 }
 
 /* -------- IHH -------- */
-let ihhDim='prod';const ihhYear=document.getElementById('ihhYear');[2026,2025,2024,2023].forEach(y=>ihhYear.add(new Option(y===2026?'2026 (ene-ago)':y,y)));
+let ihhDim='prod';const ihhYear=document.getElementById('ihhYear');[2026,2025,2024,2023].forEach(y=>ihhYear.add(new Option(y===2026?'2026 (ene-sep)':y,y)));
 ihhYear.onchange=renderIhh;document.querySelectorAll('#ihhDim button').forEach(b=>b.onclick=()=>{ihhDim=b.dataset.v;syncSeg('ihhDim',ihhDim);renderIhh();});
 function renderIhh(){
   const src=ihhDim==='prod'?D.ihh_prod:D.ihh_pais;const y=+ihhYear.value;

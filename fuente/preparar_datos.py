@@ -7,7 +7,7 @@ S = os.environ.get('CED_TRABAJO', './')
 N = os.environ.get('CED_NPM', S + 'npmchk/')
 d = pickle.load(open(S + 'cons.pkl', 'rb'))
 M = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-months = [(y, m) for y in range(2023, 2027) for m in range(1, 13) if not (y == 2026 and m > 8)]
+months = [(y, m) for y in range(2023, 2027) for m in range(1, 13) if not (y == 2026 and m > 9)]
 idx = {ym: i for i, ym in enumerate(months)}
 T = len(months)
 
